@@ -1,0 +1,229 @@
+# User Management Dashboard
+
+A comprehensive user management dashboard application with role-based access control (RBAC) built with React, Vite, and shadcn/ui components.
+
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Features](#features)
+- [Project Structure](#project-structure)
+- [Database Schema](#database-schema)
+- [Technologies Used](#technologies-used)
+- [API Documentation](#api-documentation)
+- [Future Improvements](#future-improvements)
+- [Setup Instructions](#setup-instructions)
+- [Architectural Decisions](#architectural-decisions)
+- [Challenges Faced and Solutions](#challenges-faced-and-solutions)
+
+
+
+
+
+
+## Overview
+
+This application provides a complete user management system with role-based access control. It supports three user roles (Super Admin, Admin, and Normal User) with different permissions and access levels.
+
+### Role Permissions
+
+- **Super Admin**: Can manage all users, including other admins
+- **Admin**: Can manage normal users, view other admins
+- **Regular User**: Can only view and edit their profile
+
+## Features
+
+- **Authentication System**
+  - Login with role-based redirection
+  - Signup page (creates normal users)
+  - JWT-based authentication (simulated)
+
+- **Role-Based Dashboards**
+  - Super Admin Dashboard with complete management capabilities
+  - Admin Dashboard with limited management capabilities
+  - User Dashboard with personal profile management
+
+- **User Management**
+  - User list with pagination
+  - Filter users by role and status
+  - Search users by username or email
+  - Create/Edit/Delete users based on permissions
+  - Activate/Deactivate users
+
+- **Profile Management**
+  - View and edit personal information
+  - Change password functionality
+
+- **Responsive Design**
+  - Mobile-friendly interface
+  - Adaptive sidebar
+  - Dark Mode/Light Mode
+
+## Project Structure
+```
+src/
+├── components/         # Reusable UI components
+│   ├── layout/         # Layout components
+│   └── ui/             # shadcn/ui components
+├── lib/                # Utility functions and context providers\
+├── pages/              # Page components for each route
+│   ├── admins/         # Admin management pages
+│   ├── auth/           # Authentication pages
+│   ├── dashboard/      # Dashboard pages
+│   ├── profile/        # Profile management pages
+│   └── users/          # User management pages
+├── services/           # Mock API services
+├── App.jsx             # Main application component
+├── main.jsx            # Application entry point
+└── index.css           # Global styles
+|__auth.jsx             # readme.md file
+```
+
+## Database Schema
+```
+User
+{
+  id: string;
+  username: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  role: "SUPER_ADMIN" | "ADMIN" | "USER";
+  status: "ACTIVE" | "INACTIVE";
+  createdAt: string;
+  updatedAt: string;
+}
+```
+## Technologies Used
+
+### Frontend
+- **React 18** - UI library
+- **Vite** - Build tool and development server
+- **React Router v6** - For routing and navigation
+- **Tailwind CSS** - For styling
+- **shadcn/ui** - UI component library
+- **React Hook Form** - Form handling
+- **Zod** - Form validation
+- **Lucide React** - Icon library
+
+### State Management
+- React Context API for auth and sidebar state
+- Theme Context for theme switching (dark/light) mode
+
+## API Documentation
+
+This implementation uses mock services to simulate API calls. In a real-world scenario, these would be replaced with actual API calls to a backend server.
+
+### Authentication Endpoints
+
+#### Login
+
+- **Method**: POST
+- **URL**: `/api/auth/login`
+- **Body**: `{ email: string, password: string }`
+- **Response**: `{ user: User, token: string }`
+
+
+#### Signup
+
+- **Method**: POST
+- **URL**: `/api/auth/signup`
+- **Body**: `{ username: string, email: string, firstName: string, lastName: string, password: string }`
+- **Response**: `{ success: boolean }`
+
+
+#### Get Current User
+
+- **Method**: GET
+- **URL**: `/api/auth/me`
+- **Headers**: `Authorization: Bearer <token>`
+- **Response**: `User`
+
+
+### User Management Endpoints
+
+#### Get Users
+
+- **Method**: GET
+- **URL**: `/api/users?page=1&limit=10&search=&role=&status=`
+- **Headers**: `Authorization: Bearer <token>`
+- **Response**: `{ users: User[], totalUsers: number, totalPages: number, currentPage: number }`
+
+
+#### Get User by ID
+
+- **Method**: GET
+- **URL**: `/api/users/:id`
+- **Headers**: `Authorization: Bearer <token>`
+- **Response**: `User`
+
+
+#### Create User
+
+- **Method**: POST
+- **URL**: `/api/users`
+- **Headers**: `Authorization: Bearer <token>`
+- **Body**: `User`
+- **Response**: `User`
+
+
+#### Update User
+
+- **Method**: PUT
+- **URL**: `/api/users/:id`
+- **Headers**: `Authorization: Bearer <token>`
+- **Body**: `User`
+- **Response**: `User`
+
+
+#### Delete User
+
+- **Method**: DELETE
+- **URL**: `/api/users/:id`
+- **Headers**: `Authorization: Bearer <token>`
+- **Response**: `{ success: boolean }`
+
+
+#### Update User Status
+
+- **Method**: PATCH
+- **URL**: `/api/users/:id/status`
+- **Headers**: `Authorization: Bearer <token>`
+- **Body**: `{ status: "ACTIVE" | "INACTIVE" }`
+- **Response**: `User`
+
+
+## Future Improvements
+- Backend using Nest.js
+- JWT Authentication and Authorization
+- Dynamic password reset and change
+## Challenges Faced and Solutions
+Challenge 1: Mock Backend Implementation
+### Mock Backend
+Due to the limited time to start the project because of my current tasks in my organization and not having enough knowledge on nest.js framework I have simulated the backend in the frontend. 
+- Custom mock services to simulate API calls
+
+**Problem**: Creating a realistic frontend experience without a real backend.
+
+**Solution**:
+
+- Developed mock services that simulate API behavior
+- Added realistic delays to API calls
+- Implemented proper error handling
+- Created a comprehensive set of mock data
+
+## Setup Instructions
+
+### Prerequisites
+- Node.js (v16 or later)
+- npm or yarn
+
+### Installation
+
+1. Clone the repository
+```bash
+git clone https://github.com/SS242000/assessment-whitemastery.git
+cd user-management-dashboard
+run npm i
+if throwed error then run npm i --force
+run npm run dev
